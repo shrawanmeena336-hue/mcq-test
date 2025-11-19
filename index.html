@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MCQ Test</title>
+</head>
+<body>
+    <h2>Online MCQ Test</h2>
+
+    <form id="testForm">
+        <p>1. Computer ka brain kya hota hai?</p>
+        <input type="radio" name="q1" value="CPU"> CPU<br>
+        <input type="radio" name="q1" value="Monitor"> Monitor<br>
+
+        <p>2. RAM ka full form?</p>
+        <input type="radio" name="q2" value="Random Access Memory"> Random Access Memory<br>
+        <input type="radio" name="q2" value="Read Only Memory"> Read Only Memory<br>
+
+        <button type="button" onclick="submitTest()">Submit</button>
+    </form>
+
+    <p id="msg"></p>
+
+<script>
+function submitTest() {
+    const q1 = document.querySelector('input[name="q1"]:checked')?.value;
+    const q2 = document.querySelector('input[name="q2"]:checked')?.value;
+
+    fetch("https://sheetdb.io/api/v1/yqsckr302a5np", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            data: [{ q1: q1, q2: q2, time: new Date().toLocaleString() }]
+        })
+    })
+    .then(res => res.json())
+    .then(() => {
+        document.getElementById("msg").innerText = "Submitted Successfully!";
+        document.getElementById("testForm").reset();
+    });
+}
+</script>
+
+</body>
+</html>
